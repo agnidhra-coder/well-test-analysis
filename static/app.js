@@ -131,7 +131,7 @@ const CHART_DEFAULTS = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-        legend: { labels: { color: '#8b8fa8', font: { size: 12 } } },
+        legend: { labels: { color: '#8b8fa8', font: { size: 12 }, usePointStyle: true, boxWidth: 8, boxHeight: 8 } },
     },
     scales: {
         x: {
@@ -169,12 +169,25 @@ function renderHornerChart(data) {
         data: {
             datasets: [
                 {
-                    label: 'SLSL Region',
+                    label: 'Horner Straight Line',
+                    data: linePoints,
+                    type: 'line',
+                    borderColor: '#e74c3c',
+                    borderWidth: 2,
+                    borderDash: [6, 3],
+                    pointRadius: 0,
+                    pointStyle: 'dash',
+                    fill: false,
+                    order: 0,
+                },
+                {
+                    label: 'Straight Line Points',
                     data: slslPoints,
                     backgroundColor: '#4f8cff',
                     borderColor: '#4f8cff',
                     pointRadius: 5,
                     pointHoverRadius: 7,
+                    pointStyle: 'circle',
                     order: 1,
                 },
                 {
@@ -184,18 +197,8 @@ function renderHornerChart(data) {
                     borderColor: '#8b8fa888',
                     pointRadius: 4,
                     pointHoverRadius: 6,
+                    pointStyle: 'circle',
                     order: 2,
-                },
-                {
-                    label: 'Horner Straight Line',
-                    data: linePoints,
-                    type: 'line',
-                    borderColor: '#e74c3c',
-                    borderWidth: 2,
-                    borderDash: [6, 3],
-                    pointRadius: 0,
-                    fill: false,
-                    order: 0,
                 },
             ],
         },
@@ -204,7 +207,13 @@ function renderHornerChart(data) {
             plugins: {
                 ...CHART_DEFAULTS.plugins,
                 legend: {
-                    labels: { color: '#8b8fa8', font: { size: 12 }, usePointStyle: true },
+                    labels: {
+                        color: '#8b8fa8',
+                        font: { size: 12 },
+                        boxWidth: 8,
+                        boxHeight: 8,
+                        usePointStyle: true,
+                    },
                 },
                 tooltip: {
                     callbacks: {
@@ -245,6 +254,7 @@ function renderPressureChart(data) {
                     backgroundColor: '#2ecc71',
                     borderColor: '#2ecc71',
                     pointRadius: 4,
+                    pointStyle: 'line',
                     showLine: true,
                     tension: 0.3,
                     borderWidth: 2,
@@ -292,6 +302,7 @@ function renderDerivativeChart(data) {
                     backgroundColor: '#e67e22',
                     borderColor: '#e67e22',
                     pointRadius: 4,
+                    pointStyle: 'line',
                     showLine: true,
                     tension: 0.3,
                     borderWidth: 2,
