@@ -129,7 +129,7 @@ def horner_analysis(tp, dt, pws, q, B, mu, h, phi, ct, rw):
         flow_efficiency = 1.0
 
     # Straight line for plotting
-    x_line = np.linspace(0, max(log_horner_sorted) * 1.05, 100)
+    x_line = np.linspace(min(log_horner_sorted) * 0.95, max(log_horner_sorted) * 1.05, 100)
     y_line = best_slope * x_line + best_intercept
 
     # SLSL region mask in original data order

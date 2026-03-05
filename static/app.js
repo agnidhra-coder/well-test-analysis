@@ -131,7 +131,20 @@ const CHART_DEFAULTS = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
-        legend: { labels: { color: '#8b8fa8', font: { size: 12 }, usePointStyle: true, boxWidth: 8, boxHeight: 8 } },
+        legend: {
+            labels: {
+                color: '#8b8fa8',
+                font: { size: 12 },
+                usePointStyle: true,
+                boxWidth: 8,
+                boxHeight: 8,
+                generateLabels: function (chart) {
+                    const labels = Chart.defaults.plugins.legend.labels.generateLabels(chart);
+                    labels.forEach(l => { l.pointStyle = 'line'; });
+                    return labels;
+                },
+            },
+        },
     },
     scales: {
         x: {
@@ -254,7 +267,6 @@ function renderPressureChart(data) {
                     backgroundColor: '#2ecc71',
                     borderColor: '#2ecc71',
                     pointRadius: 4,
-                    pointStyle: 'line',
                     showLine: true,
                     tension: 0.3,
                     borderWidth: 2,
@@ -302,7 +314,6 @@ function renderDerivativeChart(data) {
                     backgroundColor: '#e67e22',
                     borderColor: '#e67e22',
                     pointRadius: 4,
-                    pointStyle: 'line',
                     showLine: true,
                     tension: 0.3,
                     borderWidth: 2,
