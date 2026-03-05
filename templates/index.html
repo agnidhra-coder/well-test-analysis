@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WTA - Well Test Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div>
+            <h1><span>WTA</span> Well Test Analysis</h1>
+        </div>
+        <div class="subtitle">Horner Method &middot; Pressure Buildup Analysis</div>
+    </header>
+
+    <div class="container">
+        <!-- Controls -->
+        <div class="controls">
+            <div class="control-group file-upload">
+                <label>Buildup CSV</label>
+                <input type="file" id="csvFile" accept=".csv">
+                <div class="file-label" id="fileLabel">Drop CSV or click to browse</div>
+            </div>
+            <div class="control-group">
+                <label>Prod. Time tp (hr)</label>
+                <input type="number" id="tp" value="4800" min="1" step="100">
+            </div>
+            <div class="control-group">
+                <label>Rate q (STB/d)</label>
+                <input type="number" id="q" value="250" min="1" step="10">
+            </div>
+            <div class="control-group">
+                <label>FVF B (RB/STB)</label>
+                <input type="number" id="B" value="1.2" min="0.5" max="3" step="0.01">
+            </div>
+            <button class="btn" id="analyzeBtn" onclick="runAnalysis()">Analyze</button>
+        </div>
+
+        <!-- Advanced Parameters (collapsible) -->
+        <div class="advanced-toggle" onclick="toggleAdvanced()">
+            <span id="advToggleIcon">+</span> Advanced Parameters
+        </div>
+        <div class="controls advanced-panel" id="advancedPanel">
+            <div class="control-group">
+                <label>Viscosity &mu; (cp)</label>
+                <input type="number" id="mu" value="0.8" min="0.01" step="0.1">
+            </div>
+            <div class="control-group">
+                <label>Net Pay h (ft)</label>
+                <input type="number" id="h" value="50" min="1" step="5">
+            </div>
+            <div class="control-group">
+                <label>Porosity &phi;</label>
+                <input type="number" id="phi" value="0.15" min="0.01" max="0.4" step="0.01">
+            </div>
+            <div class="control-group">
+                <label>ct (1/psi)</label>
+                <input type="number" id="ct" value="0.000015" min="0.000001" step="0.000001">
+            </div>
+            <div class="control-group">
+                <label>Wellbore rw (ft)</label>
+                <input type="number" id="rw" value="0.328" min="0.1" step="0.01">
+            </div>
+        </div>
+
+        <div class="error-msg" id="errorMsg"></div>
+
+        <!-- Empty State -->
+        <div class="empty-state" id="emptyState">
+            <h2>Upload buildup data or use sample data</h2>
+            <p>Click Analyze to run Horner analysis with the built-in sample buildup data, or upload your own CSV with shut-in time and pressure columns.</p>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            Running Horner analysis...
+        </div>
+
+        <!-- Results -->
+        <div id="results">
+            <!-- Result Cards -->
+            <div class="results-grid" id="resultCards"></div>
+
+            <!-- Charts -->
+            <div class="charts-grid">
+                <div class="chart-card full">
+                    <h3>Horner Plot (Semi-Log)</h3>
+                    <div class="chart-container tall">
+                        <canvas id="hornerChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Pressure vs Shut-in Time</h3>
+                    <div class="chart-container">
+                        <canvas id="pressureChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Derivative Plot</h3>
+                    <div class="chart-container">
+                        <canvas id="derivativeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
